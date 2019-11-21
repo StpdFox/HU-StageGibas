@@ -1,0 +1,17 @@
+
+public class FestoControl {
+	int vel,pos,view;
+	boolean isJogging,dir;
+	private enum MyCommand{
+		MOVE("Move",vel,pos,view),
+		JOG("Jog",isJogging,dir,view),
+		HOME("Home",view),
+	}
+	public FestoControl(){
+		
+	}
+	
+	public void SetCommand(MyCommand command);
+	
+	public MyCommand getCommand();
+}

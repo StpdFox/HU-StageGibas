@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Festo Connecto Perfecto</title>
+		<style>
+			label, input {
+				display: inline-block;
+				width: 200px;
+				height: 28px;
+			}
+
+			#preview {
+				display: block;
+				padding: 20px 20px 20px 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<form>
+			<p>Festo urcap plugin</p><br \>
+			<label>Velocity [mm/s]:</label> <input id="Velocity" type="number"/><br />
+			<label>Position [mm]:</label> <input id="Position" type="number"/>
+			<br/>
+			<div id="preview">
+				<h3>Preview</h3><br \>
+
+				Velocity [mm/s]: <label id="messageVelPreviewLabel" style="width: 400px;"/> <br \>
+				Position [mm]: <label id="messagePosPreviewLabel" style="width: 400px;"/> <br \>
+				IP adress: <label id="titlePreviewLabel" style="width: 400px;"/>
+			</div>
+		</form>
+	</body>
+</html>

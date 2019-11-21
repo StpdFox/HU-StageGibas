@@ -1,0 +1,66 @@
+package com.forfoxsake.FestoCap.Nodes;
+
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import com.forfoxsake.FestoCap.Styles.Style;
+
+public class SwingObjects {
+	Style style;
+	private JTextField jTextField;
+	SwingObjects(Style style){
+		this.style=style;
+	}
+	public Component createButton(String content) {
+		JButton button = new JButton(content);
+		Dimension buttonSize = new Dimension(200, 50);
+		button.setPreferredSize(buttonSize);
+		button.setMinimumSize(button.getPreferredSize());
+		button.setMaximumSize(button.getPreferredSize());
+		return button;
+	}
+	public Box createBox(Component ...comp) {
+		Box box = Box.createHorizontalBox();
+		int count = 0;
+		for(Component i:comp) {
+			box.add(comp[count]);
+			count++;
+		}
+		return box;
+	}
+
+	public Component createHorizontalSpacer(int height) {
+		Component spacer = Box.createRigidArea(new Dimension(0, height));
+		return spacer;
+	}
+
+	public Box createDescriptionLabel(String text) {
+		Box box = Box.createHorizontalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		JLabel label = new JLabel(text);
+
+		box.add(label);
+
+		return box;
+	}
+
+	public Box createInput() {
+		Box inputBox = Box.createHorizontalBox();
+		inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		inputBox.add(new JLabel("Enter a value:"));
+		jTextField = new JTextField();
+		jTextField.setFocusable(false);
+		jTextField.setPreferredSize(style.getInputfieldSize());
+		jTextField.setMaximumSize(jTextField.getPreferredSize());
+		inputBox.add(jTextField);
+		
+		return inputBox;
+	}
+
+}

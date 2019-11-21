@@ -1,0 +1,37 @@
+package com.forfoxsake.FestoCap.Nodes;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import com.forfoxsake.FestoCap.Styles.Style;
+import com.ur.urcap.api.contribution.ContributionProvider;
+import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
+
+public class MoveNodeView implements SwingProgramNodeView<MoveNode> {
+
+	private MoveNode modeNode;
+	private SwingObjects swingObjects;
+	private final Style style;
+	
+
+	public MoveNodeView(Style style) {
+		this.style=style;
+	}
+
+	@Override
+	public void buildUI(JPanel jPanel, ContributionProvider<MoveNode> provider) {
+		System.out.println("Building MoveNodeView");
+		jPanel.setLayout(new BoxLayout(jPanel,BoxLayout.Y_AXIS));
+		jPanel.add(swingObjects.createDescriptionLabel("This node can interact with a Festo Motor."));
+		jPanel.add(swingObjects.createHorizontalSpacer(5));
+		jPanel.add(swingObjects.createInput("Move Festo to absolute Position :"));
+
+	}
+
+	public void setMotorPositionInt(String value) {
+		// TODO Auto-generated method stub
+
+	}
+	
+}

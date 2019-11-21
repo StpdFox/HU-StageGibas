@@ -1,0 +1,23 @@
+package Nodes;
+
+import javax.swing.JPanel;
+
+import com.ur.urcap.api.contribution.ContributionProvider;
+import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
+
+public class MoveNodeView implements SwingProgramNodeView<MoveNode> {
+	
+	private MoveNode modeNode;
+	private final Style style;
+	@Override
+	public void buildUI(JPanel jPanel, ContributionProvider<MoveNode> provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setMotorPositionInt(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

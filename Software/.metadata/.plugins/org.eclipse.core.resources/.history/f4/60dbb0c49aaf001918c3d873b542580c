@@ -1,0 +1,31 @@
+package com.forfoxsake.festocap.impl;
+
+public interface FestoAPI {
+
+	private enum MotorFunction {
+		MOVE(int vel,int pos), JOG(boolean isRunning,int dir), ENABLE(), HOME();
+		
+		
+		MotorFunction(int vel,int pos){
+			this.vel = vel;
+			this.pos = pos;
+		}
+		MotorFunction(boolean isRunning,int dir){
+			this.isrunning = isRunning;
+			this.dir = dir;
+		}
+		MotorFunction(){
+			
+		}
+		
+		final int vel;
+		final int pos;
+		final int dir;
+		final boolean isrunning;
+		
+		//Methods?
+	}
+	
+	//Getters en Setters?
+
+}

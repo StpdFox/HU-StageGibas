@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Festo Connect</title>
+		<style>
+			label, input {
+				display: inline-block;
+				width: 200px;
+				height: 28px;
+			}
+			
+			div.spacer {
+				padding-top: 10px;
+	 		}
+		</style>
+	</head>
+	<body>
+		<div class="spacer">&nbsp;</div>
+		<form>
+			<p>Enter the IP adress of the machine, and press start to load it.</p>
+			<br />
+			<label>IP adress:</label><input id="popuptitle" type="text"/>
+			<div class="spacer">&nbsp;</div>		
+			<input id="btnEnableDaemon" type="button" />
+			<input id="btnDisableDaemon" type="button" />
+			<div class="spacer">&nbsp;</div>
+			<label id="lblDaemonStatus">Status of program</label>
+		</form>
+	</body>
+</html>

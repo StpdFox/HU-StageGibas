@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ModBusTest",
+            "request": "launch",
+            "mainClass": "modbus.ModBusTest",
+            "projectName": "Modbustest"
+        }
+    ]
+}

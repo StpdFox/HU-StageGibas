@@ -1,0 +1,27 @@
+package com.forfoxsake.FestoCap.impl;
+
+public class FestoControl {
+	int vel,pos,view;
+	boolean isJogging,dir;
+	
+	
+	private enum FestoCommand{
+		MOVE("Move",vel,pos,view),
+		JOG("Jog",isJogging,dir,view),
+		HOME("Home",view);
+		
+		private FestoCommand() {
+			//Hier gaan we de functies van FestoControl binden aan de commands in MyCommand
+		}
+		public void SetCommand(MyCommand command);
+		
+		public MyCommand getCommand();
+	}
+	public FestoControl(){
+		
+	}
+	
+
+	
+	
+}

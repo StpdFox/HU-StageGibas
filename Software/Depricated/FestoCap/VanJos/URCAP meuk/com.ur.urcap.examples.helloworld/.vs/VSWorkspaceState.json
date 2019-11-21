@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bin\\src",
+    "\\src",
+    "\\src\\main",
+    "\\src\\main\\java",
+    "\\src\\main\\java\\com",
+    "\\src\\main\\java\\com\\ur",
+    "\\src\\main\\java\\com\\ur\\urcap",
+    "\\src\\main\\java\\com\\ur\\urcap\\examples",
+    "\\src\\main\\java\\com\\ur\\urcap\\examples\\helloworld",
+    "\\src\\main\\java\\com\\ur\\urcap\\examples\\helloworld\\impl"
+  ],
+  "SelectedNode": "\\src\\main\\java\\com\\ur\\urcap\\examples\\helloworld\\impl\\HelloWorldProgramNodeContribution.java",
+  "PreviewInSolutionExplorer": false
+}

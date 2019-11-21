@@ -1,0 +1,146 @@
+package com.forfoxsake.festocap.impl;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import com.ur.urcap.api.contribution.ContributionProvider;
+import com.ur.urcap.api.contribution.ViewAPIProvider;
+import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
+import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
+
+public class MotorMoveView implements SwingProgramNodeView<MotorMoveContribution> {
+	private MotorControl motorControl;
+	private MotorMoveContribution motorMoveContribution;
+	private final Style style;
+	private JTextField jTextField;
+	
+
+	public MotorMoveView(Style style) {
+		this.style = style;
+		
+		
+	}
+
+	@Override
+	public void buildUI(JPanel panel, ContributionProvider<MotorMoveContribution> provider) {
+		System.out.println("Building MotorMoveView");
+
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		panel.add(createDescriptionLabel("This node can interact with a Festo Motor."));
+		panel.add(createHorizontalSpacer(5));
+
+		panel.add(createHorizontalSpacer(15));
+		panel.add(createJogTestButtons("Motor Start", "Jog Stop",provider));
+		panel.add(createHorizontalSpacer(5));
+		panel.add(createInput(provider));
+
+	}
+
+	private Box createJogTestButtons(String text1, String text2,final ContributionProvider<MotorMoveContribution>provider) {
+		Box box = Box.createHorizontalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		JButton button1 = new JButton(text1);
+		JButton button2 = new JButton(text2);
+
+		Dimension buttonSize = new Dimension(200, 50);
+
+		button1.setPreferredSize(buttonSize);
+		;
+		button1.setMinimumSize(button1.getPreferredSize());
+		button1.setMaximumSize(button1.getPreferredSize());
+		button2.setPreferredSize(buttonSize);
+		button2.setMinimumSize(button2.getPreferredSize());
+		button2.setMaximumSize(button2.getPreferredSize());
+
+		button1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				provider.get().setJogNode(true);
+				//motorControl.jogMotorStop();
+			}
+		});
+
+		button2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				provider.get().setJogNode(false);
+			}
+		});
+
+		box.add(button1);
+		//box.add(button2);
+
+		return box;
+	}
+
+	/*****
+	 * Rather generic component builders
+	 */
+
+	/*****
+	 * Creates a rigid area with the specified height
+	 * 
+	 * @param height The height of the spacer
+	 * @return A Component that can be used as a spacer
+	 */
+	private Component createHorizontalSpacer(int height) {
+		Component spacer = Box.createRigidArea(new Dimension(0, height));
+		return spacer;
+	}
+
+	/*****
+	 * Creates a Box with a Label containing the specified text
+	 * 
+	 * @param text The specified text
+	 * @return The creates box
+	 */
+	private Box createDescriptionLabel(String text) {
+		Box box = Box.createHorizontalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		JLabel label = new JLabel(text);
+
+		box.add(label);
+
+		return box;
+	}
+	private Box createInput(final ContributionProvider<MotorMoveContribution> provider) {
+		Box inputBox = Box.createHorizontalBox();
+		inputBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		inputBox.add(new JLabel("Enter a value:"));
+	
+
+		jTextField = new JTextField();
+		jTextField.setFocusable(false);
+		jTextField.setPreferredSize(style.getInputfieldSize());
+		jTextField.setMaximumSize(jTextField.getPreferredSize());
+		jTextField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				KeyboardTextInput keyboardInput = provider.get().getKeyboardForTextField();
+				keyboardInput.show(jTextField, provider.get().getCallbackForTextField());
+			}
+		});
+
+		inputBox.add(jTextField);
+		return inputBox;
+	}
+	public void setMotorSpeedInt(String speed) {
+		jTextField.setText(speed);
+	}
+
+}

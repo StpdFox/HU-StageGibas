@@ -1,0 +1,9 @@
+package com.forfoxsake.FestoCap.impl;
+
+public interface FestoAPI {
+	
+	
+	public enum MyCommand{
+		MOVE("Move",)
+	}
+}

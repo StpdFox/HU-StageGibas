@@ -1,0 +1,227 @@
+package com.forfoxsake.FestoCap.Festo;
+
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+
+import de.re.easymodbus.exceptions.ModbusException;
+import de.re.easymodbus.modbusclient.ModbusClient;
+
+public class FestoConnect {
+
+	static String host = "172.16.0.20";
+	static int port = 502;
+	static ModbusClient modbusClient = new ModbusClient(host, port);
+
+	static int controlMsg[] = { 0, 0, 0, 0 };
+	static int statusMsg[] = { 0, 0, 0, 0 };
+	static int bufferMsg[] = statusMsg;
+	static int controlMsgCheck[] = controlMsg;
+
+	static boolean dorun = true;
+	static boolean controlThreadRunning = true;
+
+	/**
+	 * Main loop that basically runs the whole program. Contains every command one
+	 * can send to the Festo unit. This main loop also starts a (@link thread) that
+	 * reads and writes to the modbus registers. The main loop starts with a (@link
+	 * enable) (@link homing) (@link move) to test the Festo unit. After the
+	 * initialisation a command menu starts for manual control
+	 * 
+	 * @param args main loop arguments
+	 * @throws InterruptedException Exception when the loop gets interrupted
+	 * @throws UnknownHostException Exception when the host is Unknown
+	 * @throws SocketException      Exception when the socket isn't accepted or busy
+	 * @throws ModbusException      Exception when the modbus library runs into any
+	 *                              problems
+	 * @throws IOException          Exception when there's something wrong with the
+	 *                              io....
+	 */
+	public void main(String[] args)
+			throws InterruptedException, UnknownHostException, SocketException, ModbusException, IOException {
+
+		connectToFesto();
+		startCommunication();
+	}
+
+	/**
+	 * Reads Holding Registers 0-4 and puts them in regs an integer array. Updates
+	 * the to the received msg.
+	 * 
+	 * @return The acquired registers
+	 * 
+	 * @throws UnknownHostException Exception when the host is Unknown
+	 * @throws SocketException      Exception when the socket isn't accepted or busy
+	 * @throws ModbusException      Exception when the modbus library runs into any
+	 *                              problems
+	 * @throws IOException          Exception when there's something wrong with the
+	 *                              io....
+	 */
+	public int[] readModbus() throws UnknownHostException, SocketException, ModbusException, IOException {
+		int regs[] = modbusClient.ReadHoldingRegisters(0, 4);
+
+		if (bufferMsg == statusMsg) {
+			System.out.println("\nReading from " + host + ": " + Arrays.toString(regs));
+		}
+
+		bufferMsg = statusMsg;
+		statusMsg = regs;
+
+		return regs;
+	}
+
+	/**
+	 * Writes to Multiple Registers ( 0-4 ) with the current controlMsg if the
+	 * message differs from the one previously sent, it can be printed for debugging
+	 * purposes
+	 * 
+	 * @return the controlMsg
+	 * @throws UnknownHostException Exception when the host is Unknown
+	 * @throws SocketException      Exception when the socket isn't accepted or busy
+	 * @throws ModbusException      Exception when the modbus library runs into any
+	 *                              problems
+	 * @throws IOException          Exception when there's something wrong with the
+	 *                              io....
+	 */
+	public int[] writeModbus() throws UnknownHostException, SocketException, ModbusException, IOException {
+		modbusClient.WriteMultipleRegisters(0, controlMsg);
+		if (Arrays.toString(controlMsgCheck) == Arrays.toString(controlMsg)) {
+			System.out.println("\nWriting from " + host + ": " + Arrays.toString(controlMsg));
+
+		}
+
+		controlMsgCheck = controlMsg;
+		return controlMsg;
+	}
+
+	/**
+	 * Updates the contents of (@link controlMsg) with (@link content)
+	 * 
+	 * @param content a controlMsg containing commands for the Festo Unit
+	 * @return the (@link statusMsg) response from the Festo Unit
+	 */
+	public int[] sendRecieveModbus(int[] content) {
+		controlMsg = content;
+
+		return statusMsg;
+	}
+
+	/**
+	 * Converts two registers into an integer.
+	 * 
+	 * @param registers integer array that represents a Modbus register
+	 * @return integer
+	 */
+	public int twoRegistersToInt(int[] registers) {
+		int[] tempRegs = { registers[1], registers[0] };
+		int i = ModbusClient.ConvertRegistersToDouble(tempRegs);
+
+		return i;
+
+	}
+
+	/**
+	 * Converts an integer into two registers representing a 32-bit number
+	 * 
+	 * @param i integer value that needs to be converted
+	 * @return registers
+	 */
+	public int[] intToTwoRegisters(int i) {
+		int[] tempRegs = ModbusClient.ConvertDoubleToTwoRegisters(i);
+		int[] regs = { tempRegs[1], tempRegs[0] };
+
+		return regs;
+	}
+
+	/**
+	 * Reads the position of the Festo Unit from control byte 5-8.
+	 * 
+	 * @param fromBus the message received from the Festo Unit
+	 * @return integer value representing the position of the Festo Unit
+	 * @throws UnknownHostException Exception when the host is Unknown
+	 * @throws SocketException      Exception when the socket isn't accepted or busy
+	 * @throws ModbusException      Exception when the modbus library runs into any
+	 *                              problems
+	 * @throws IOException          Exception when there's something wrong with the
+	 *                              io....
+	 */
+	public int getModbusPosition(int[] fromBus)
+			throws UnknownHostException, SocketException, ModbusException, IOException {
+
+		return twoRegistersToInt(modbusClient.ReadHoldingRegisters(2, 2));
+	}
+
+	public void connectToFesto() {
+		try {
+			modbusClient.Connect();
+		} catch (UnknownHostException e) {
+			System.out.println("Could not Connect because : ");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Could not Connect because : ");
+			e.printStackTrace();
+		}
+	}
+
+	public void startCommunication() {
+		Thread thread = new Thread() {
+			public void run() {
+				System.out.println("Starting thread");
+				while (dorun) {
+
+					try {
+						writeModbus();
+					} catch (UnknownHostException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					} catch (SocketException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					} catch (ModbusException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					} catch (IOException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					}
+
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+
+					try {
+						readModbus();
+					} catch (UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SocketException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ModbusException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+				System.out.println("Exiting thread");
+			};
+
+		};
+		thread.start();
+	}
+
+}

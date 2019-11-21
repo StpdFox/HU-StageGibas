@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Festo Connecto Perfecto</title>
+		<style>
+			label, input {
+				display: inline-block;
+				width: 200px;
+				height: 28px;
+			}
+
+			#preview {
+				display: block;
+				padding: 20px 20px 20px 0px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<form>
+			<p>Linear axis motion</p><br \>
+			<label>Velocity [mm/s]:</label> <input id="Vel" type="text"/><br>
+			<label>Position [mm]:</label> <input id="Pos" type="text"/>
+			<br/>
+			<div id="preview">
+				<h3>Preview</h3><br \>
+				Title: <label id="titlePreviewLabel" style="width: 400px;"/> <br \>
+				Message: <label id="messagePreviewLabel" style="width: 400px;"/>
+			</div>
+		</form>
+	</body>
+</html>

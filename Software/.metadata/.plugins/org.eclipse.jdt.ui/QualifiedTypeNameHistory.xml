@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="com.forfoxsake.FestoCap.Festo.FestoAPI.MyCommand"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.contribution.ProgramNodeContribution"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.domain.data.DataModel"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.domain.ProgramAPI"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputCallback"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.contribution.program.ProgramAPIProvider"/>
+    <fullyQualifiedTypeName name="javax.swing.Box"/>
+    <fullyQualifiedTypeName name="com.ur.urcap.api.contribution.ContributionProvider"/>
+    <fullyQualifiedTypeName name="java.awt.Component"/>
+    <fullyQualifiedTypeName name="java.awt.Dimension"/>
+    <fullyQualifiedTypeName name="javax.swing.JLabel"/>
+    <fullyQualifiedTypeName name="javax.swing.JTextField"/>
+    <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+    <fullyQualifiedTypeName name="java.awt.Component.BaselineResizeBehavior"/>
+    <fullyQualifiedTypeName name="com.forfoxsake.FestoCap.Styles.Style"/>
+    <fullyQualifiedTypeName name="javax.swing.BoxLayout"/>
+    <fullyQualifiedTypeName name="javax.swing.JButton"/>
+</qualifiedTypeNameHistroy>

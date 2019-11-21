@@ -1,0 +1,40 @@
+package com.forfoxsake.FestoCap.Festo;
+
+public class FestoControl {
+	static int vel;
+	static int pos;
+	static int view;
+	static boolean isJogging;
+	static boolean dir;
+	
+	
+	private enum FestoCommand{
+		
+		MOVE("Move",vel,pos,view),
+		JOG("Jog",isJogging,dir,view),
+		HOME("Home",view);
+		
+		FestoCommand(String name,int vel,int pos,int view){
+			this.name = name;
+		}
+		FestoCommand(String name,boolean isJogging,boolean dir,int view){
+			this.name = name;
+		}
+		FestoCommand(String name,int view){
+			this.name = name;
+		}
+		final String name;
+		
+		
+		
+		public String getName() {return name;}
+		
+	}
+	public FestoControl(){
+		
+	}
+	
+
+	
+	
+}

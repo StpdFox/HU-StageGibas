@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1523622103496
+Build-Jdk: 1.8.0_162
+Built-By: root
+Bundle-Activator: com.ur.urcap.examples.helloworld.impl.Activator
+Bundle-Category: URCap
+Bundle-ContactAddress: Energivej 25, 5260 Odense S, Denmark
+Bundle-Copyright: Copyright (C) 2009-2017 Universal Robots. All Rights R
+ eserved
+Bundle-Description: Hello World sample URCap
+Bundle-LicenseType: Sample license
+Bundle-ManifestVersion: 2
+Bundle-Name: HelloWorld
+Bundle-SymbolicName: com.ur.urcap.examples.helloworld
+Bundle-Vendor: Universal Robots
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Import-Package: com.ur.urcap.api.contribution;version="[1.0.0,2.0.0)",co
+ m.ur.urcap.api.domain;version="[1.0.0,2.0.0)",com.ur.urcap.api.domain.d
+ ata;version="[1.0.0,2.0.0)",com.ur.urcap.api.domain.script;version="[1.
+ 0.0,2.0.0)",com.ur.urcap.api.ui.annotation;version="[1.0.0,2.0.0)",com.
+ ur.urcap.api.ui.component;version="[1.0.0,2.0.0)",org.osgi.framework;ve
+ rsion="[1.6,2)"
+Tool: Bnd-2.1.0.20130426-122213

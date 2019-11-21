@@ -1,0 +1,49 @@
+package Nodes;
+
+import com.ur.urcap.api.contribution.ProgramNodeContribution;
+import com.ur.urcap.api.domain.data.DataModel;
+import com.ur.urcap.api.domain.script.ScriptWriter;
+
+public class MoveNode implements ProgramNodeContribution{
+	
+	private static final String KEY_MOTORPOSITION = "motorPosition";
+	private DataModel model;
+	
+	public MoveNode(DataModel model) {
+		this.model = model;		
+	}
+	public int getMotorPosition() {
+		return model.get(KEY_MOTORPOSITION,0);
+	}
+	
+	@Override
+	public void closeView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void generateScript(ScriptWriter writer) {
+		writer.appendLine("socket_open(\"localhost\",8080)");
+	
+		writer.appendLine("socket_send_line(\"move-"+model.get(KEY_MOTORPOSITION,0));
+		writer.appendLine("socket_close()");
+	}
+
+	@Override
+	public String getTitle() {
+		return "Move"+model.get(KEY_MOTORPOSITION, "POSITION NOT SET");
+	}
+
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
+
+	@Override
+	public void openView() {
+		// TODO Wat moet er geset worden wanneer de View opend?
+		
+	}
+	
+}

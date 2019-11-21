@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Festo Connecto Perfecto</title>
+		<style>
+			label, input {
+				display: inline-block;
+				width: 200px;
+				height: 28px;
+			}
+			
+			div.spacer {
+				padding-top: 10px;
+	 		}
+		</style>
+	</head>
+	<body>
+		<h1>Festo Connecto Perfecto</h1>
+		<div class="spacer">&nbsp;</div>		
+		<form>
+			<p>The popup title below is shared between all MyDaemon program nodes through the driver.<br />Cannot be empty.</p>
+			<br />
+			<label>Popup title:</label><input id="popuptitle" type="text"/>
+			<div class="spacer">&nbsp;</div>		
+			<input id="btnEnableDaemon" type="button" />
+			<input id="btnDisableDaemon" type="button" />
+			<div class="spacer">&nbsp;</div>
+			<label id="lblDaemonStatus">Status of daemon</label>
+		</form>
+	</body>
+</html>

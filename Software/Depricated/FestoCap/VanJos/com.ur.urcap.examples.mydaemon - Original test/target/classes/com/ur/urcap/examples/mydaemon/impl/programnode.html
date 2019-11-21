@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Festo Connecto Perfecto</title>
+		<style>
+			label, input {
+				display: inline-block;
+				width: 200px;
+				height: 28px;
+			}
+
+			#preview {
+				display: block;
+				padding: 20px 20px 20px 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<form>
+			<div id="preview">
+				<h3>Preview</h3><br \>
+
+				Velocity [%]: <label id="messageVelPreviewLabel" style="width: 400px;"/> <br \>
+				Position [um]: <label id="messagePosPreviewLabel" style="width: 400px;"/> <br \>
+				IP adress: <label id="titlePreviewLabel" style="width: 400px;"/>
+			</div>
+			<div>
+				<label>Velocity [%]:</label><select id="comboVariables"></select>
+			</div>
+            <div>
+                <label>Position [um]:</label><select id="comboVariables2"></select>
+            </div>
+		</form>
+	</body>
+</html>

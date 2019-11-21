@@ -1,0 +1,2 @@
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<messages>\r\n<message>added working maven version</message>\r\n<message>Reverted jog velocity tests</message>\r\n<message>Added jogStart and jogStop functions</message>\r\n<message>fixed some stupid class path stuff</message>\r\n<message>Initial comit of the java backend</message>\r\n</messages>
+eclipse.preferences.version=1

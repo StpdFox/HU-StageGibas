@@ -1,0 +1,112 @@
+package com.forfoxsake.FestoCap.Festo;
+
+import java.util.concurrent.TimeUnit;
+
+public class FestoControl {
+	FestoConnect festoConnect = new FestoConnect();
+
+	String motorStatus;
+
+	public FestoControl() {
+
+	}
+
+	public int[] homing() throws InterruptedException {
+		System.out.println("Homing System");
+		motorStatus = " Homing System";
+		int msg[] = { 773, 0, 0, 0 };
+		int[] status = festoConnect.sendRecieveModbus(msg);
+
+		while ((status[0] & 128) != 128) {
+			status = festoConnect.statusMsg; // get new status message
+			TimeUnit.MILLISECONDS.sleep(300);
+		}
+		System.out.println("System Homed");
+		motorStatus = " System Homed";
+
+		return status;
+	}
+
+	public int[] enable() throws InterruptedException {
+		// reset controller if fault detected
+		System.out.println("Enabling Systems");
+		motorStatus = " Enabling Systems";
+		int resetMsg[] = { 2561, 0, 0, 0 };
+		while ((festoConnect.statusMsg[0] & 4096) != 4096) {
+
+			festoConnect.sendRecieveModbus(resetMsg);
+			TimeUnit.MILLISECONDS.sleep(30);
+		}
+		int enableMsg[] = { 769, 0, 0, 0 };
+		// enable controller
+		int[] status = festoConnect.sendRecieveModbus(enableMsg);
+
+		while ((status[0] & 256) != 256) {
+			status = festoConnect.statusMsg; // get new status message
+			TimeUnit.MILLISECONDS.sleep(30);
+		}
+		System.out.println("System Enable");
+		motorStatus = "Systems Enabled";
+		
+		return status;
+	}
+
+	public int[] move(int vel, int pos) throws InterruptedException {
+		System.out.println("Starting Motion to: " + pos);
+		motorStatus = "Starting Motion";
+		int destination[] = festoConnect.intToTwoRegisters(pos);
+		int moveMsg[] = { 17153, vel, destination[0], destination[1] }; // Position
+		festoConnect.sendRecieveModbus(moveMsg);
+		TimeUnit.MILLISECONDS.sleep(30);
+		int startMsg[] = { 17155, vel, destination[0], destination[1] }; // Start
+		int status[] = festoConnect.sendRecieveModbus(startMsg);
+		TimeUnit.SECONDS.sleep(1);
+		while ((status[0] & 2) != 2) { // wait for start Ack
+			status = festoConnect.statusMsg; // get new status message
+			TimeUnit.MILLISECONDS.sleep(30);
+		}
+		System.out.println("Ack Recieved");
+		status = festoConnect.sendRecieveModbus(moveMsg); // Remove Start
+		TimeUnit.SECONDS.sleep(1);
+		// wait for motion complete
+		while ((status[0] & 4) != 4) {
+			status = festoConnect.statusMsg; // get new status
+			TimeUnit.MILLISECONDS.sleep(30);
+		}
+		System.out.println("Motion Complete");
+		motorStatus = "Motion Complete";
+		
+		return status;
+	}
+
+	public int[] jogStart(int vel) {
+		int moveMsg[] = { 17153, 1074, 0, 0 };
+		festoConnect.sendRecieveModbus(moveMsg);
+
+		try {
+			TimeUnit.MILLISECONDS.sleep(30);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int[] startMsg = { 17161, 1074, 0, 0 };
+		festoConnect.sendRecieveModbus(startMsg);
+		
+		return moveMsg;
+	}
+
+	public int[] jogStop() {
+
+		int moveMsg[] = { 17155, 0, 0, 0 };
+		festoConnect.sendRecieveModbus(moveMsg);
+		try {
+			TimeUnit.MILLISECONDS.sleep(30);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return moveMsg;
+	}
+
+}

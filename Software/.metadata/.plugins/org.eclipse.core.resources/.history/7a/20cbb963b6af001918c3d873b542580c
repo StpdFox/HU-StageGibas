@@ -1,0 +1,77 @@
+package com.forfoxsake.FestoCap.Nodes;
+
+import com.ur.urcap.api.contribution.ProgramNodeContribution;
+import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
+import com.ur.urcap.api.domain.ProgramAPI;
+import com.ur.urcap.api.domain.data.DataModel;
+import com.ur.urcap.api.domain.script.ScriptWriter;
+import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputCallback;
+import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory;
+import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
+
+public class MoveNode implements ProgramNodeContribution{
+	private final MoveNodeView view;
+	private final ProgramAPI programAPI;
+	private final KeyboardInputFactory keyboardFactory;
+	private static final String KEY_MOTORPOSITION = "motorPosition";
+	private DataModel model;
+	
+	public MoveNode(ProgramAPIProvider apiProvider,MoveNodeView view,DataModel model) {
+		this.programAPI = apiProvider.getProgramAPI();
+		this.view = view;
+		this.keyboardFactory= apiProvider.getUserInterfaceAPI().getUserInteraction().getKeyboardInputFactory();
+		this.model = model;		
+	}
+	public int getMotorPosition() {
+		return model.get(KEY_MOTORPOSITION,0);
+	}
+	
+	@Override
+	public void closeView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void generateScript(ScriptWriter writer) {
+		writer.appendLine("socket_open(\"localhost\",8080)");
+	
+		writer.appendLine("socket_send_line(\"move-"+model.get(KEY_MOTORPOSITION,0));
+		writer.appendLine("socket_close()");
+	}
+
+	@Override
+	public String getTitle() {
+		return "Move"+model.get(KEY_MOTORPOSITION, "POSITION NOT SET");
+	}
+
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
+
+	@Override
+	public void openView() {
+		// TODO Wat moet er geset worden wanneer de View opend?
+	}
+	
+	public ProgramAPI getProgramAPI() {
+		return this.programAPI;
+	}
+	public KeyboardTextInput getKeyboardForTextField() {
+		KeyboardTextInput keyboardInput = keyboardFactory.createStringKeyboardInput();
+		keyboardInput.setInitialValue("1000");
+		return keyboardInput;
+	}
+
+	public KeyboardInputCallback<String> getCallbackForTextField() {
+		return new KeyboardInputCallback<String>() {
+			@Override
+			public void onOk(String value) {
+				model.set(KEY_MOTORPOSITION, Integer.parseInt(value));
+				view.setMotorPositionInt(value);
+			}
+		};
+	}
+	
+}
